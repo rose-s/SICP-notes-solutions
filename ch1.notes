@@ -1,0 +1,133 @@
+-----------1.1 The Elements of Programming-----------
+	
+1. Programming languages combine simple ideas to form more complex ones
+	- Primitive_Expressions: represent the simplest entities the language is concerned with;
+	- Means_of_Combination: compound lements are built from simpler ones;
+	- Means_of_Abstraction: compound elements can be named and manipulated as unites
+
+-----------1.1.1 Expressions-----------
+
+	- Combinations: a list of expresions within parentheses in order to denote procedure application
+		- operator: character that represents and action, such as +, -, *, / 
+		- operand: the quantity on which an operation is to be done 
+		- prefix_notation: convention of placing the operator to the left of the operands, such as 
+			- ex.(+ 21 35 12 7)
+			- allows combinations to be *nested* (ie to have combinations whose elements are themselves combinations)
+				-ex. (+ (*3 5) (-10 6))
+		- pretty_printing: formatting a long combination so that the operands are aligned vertically
+		- read_eval_print_loop: the cycle the interpretator takes with the complex expression 
+			- reads an expression in the terminal
+			- evaluates the expression
+			- prints the result
+
+
+-----------1.1.2 Naming and the Environment-----------
+
+	- Define: how Lisp names variables; simplest means of abstraction
+		- (define x 3) associates the value 3 with the name x
+	- "A name identifies a variable whose value is the object"
+	- Environment: the memory of the interpretor that keeps track of the name-object pairs
+
+-----------1.1.3 Evaluation Combinations-----------
+
+	-To evaluate a combination, do the following:
+		1. Evaluate the subexpressions of the combination
+		2. Apply the procedure that is the value of the leftmost subexpression (the operator) to the arguments that are the values of the subexpressions (the operands)
+
+	- Evalution is *recursive* - one of its steps is to invoke the rule itself
+	- "Percolate values upward" - example of a kind of process called *tree accumulation* 
+
+
+-----------1.1.4 Compound Procedures-----------
+
+- Procedure_Definitions: abstraction tecnique of assigning a compound operation a name and then referring to it as a unit
+	
+	- Compound_Procedure:
+
+	(define ( <name>  <formal parameters> ) <body>)
+	(define  (square    x)                 (* x x ))
+	 to       square    smthing             multiply x by x
+
+		- name: symbol to be associated with the procedure def; 
+		- formal_parameters: names used within the body of the procedure to refer to the procedure application
+		- body: an express that will yield the value of the procedure application when the formal parameters are replaced by the actual arguments to which the procedure is applied
+
+	- Normal_Order_Evaluation: "fully expand and then reduce"
+	- Applicative_order_evaluation: "evaluate the arguments and then apply" !!the method used by the interpreter
+
+	- Case_analysis:
+				
+				r if r > 0
+		|r| =   0 if r = 0
+			   -r if r < 0
+
+	- Absolute_Value_procedures:
+
+		example 1
+
+		(define (abs x)
+		 (cond 	((> x 0) x)
+		  		((= x 0) 0)
+		  		((< x 0)-x)))
+
+		example 2
+
+		(define (abs x)
+		 (cond  ((< x 0) (-x))
+		 		(else x)))
+
+		example 3
+
+		(define (abs x)
+			(if (< x 0)
+				(-x)
+				 x ))
+
+		Patterns
+
+		 (cond  (<p_1> <e_1>)  
+		 		(<p_2> <e_2>)  
+		 		(<p_n> <e_n>))
+
+		 (if <predicate> <consequent> <alternatives>)
+
+		 clauses: parenthesized paires of expressions;
+		 predicate: first expression in each pair <p>; used for procedures that return T or F & for expressions that evaluate to T or F
+		 consequentexpression: second expression in each pair <e>;
+		 
+		 #the interpreter evaluates each of the predicates until one is found to be true, thereafter returning the value of the corresponding consequent expression of the clause as the value of the econditional expression. if no predicate is true, the value is undefined;
+
+		- logical_composition_operators:
+
+			. ( and <e_1> . . . <e_n> )
+
+				- if interpreter evaluates ALL <e> to be true, the value of the ```and``` expression is the value of the last one;
+				- this is NOT a procedure, but a *specialForm* not all subexpressions are necessarily evaluated;
+
+				example 
+
+				(and (> x 5) (< x 10))
+
+			. ( or <e_1> . . . <e_n> )
+
+				- if interpreter evaluates ANY <e> to be true, the value is returned as the value of the ```or``` expression & rest of the <e> are not evaluated;
+				- if interpreter evaluates ALL <e> to be false, the value of the ```or``` expression is false;
+				- this is NOT a procedure, but a *specialForm* not all subexpressions are necessarily evaluated;
+
+				example
+
+				(define ( > = x y)
+					(or ( >   x y) (= x y)))
+
+			. (not <e> )
+
+				- if the <e> expression evaluates to false, the value of a ```not``` expression is true;
+				- if the <e> expression evaluates to true, the value of a ```not``` expression is false;
+				- this is a *procedure* because all subexpressions are evaluated;
+
+				. example
+
+				( define ( > = x y)
+					not  ( <   x y))
+
+	
