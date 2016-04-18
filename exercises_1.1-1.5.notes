@@ -59,7 +59,7 @@
 ----------Exercise 1.3---------- 
 
 
-Define a procedure that takes three numbers as arguments and returns the sum of the squares of the two larger numbers
+"Define a procedure that takes three numbers as arguments and returns the sum of the squares of the two larger numbers";
 
 #Example 1
 
@@ -96,7 +96,7 @@ Define a procedure that takes three numbers as arguments and returns the sum of 
 
 	//define sume of squares
 	(define
-		(sum-of-squares x y) (+ (square x) (square ))
+		(sum-of-squares x y) (+ (square x) (square y))
 	)
 
 	//define largest sum of squares
@@ -123,17 +123,17 @@ Define a procedure that takes three numbers as arguments and returns the sum of 
 
 ----------Exercise 1.4---------- 
 
-Observe that our model of evaluation allows for cominations whose operators are compound expressions. Use this observation to describe the behavior of the following procedure
+"Observe that our model of evaluation allows for cominations whose operators are compound expressions. Use this observation to describe the behavior of the following procedure"
 
 (define (a-plus-abs-b a b)
 	((if (> b 0) + -) a b))
 	
 	if b is greater than zero add a and b;
-	if b is less than zero subraact a and b;
+	if b is less than zero subract a and b;
 
 
 ----------Exercise 1.5---------- 
-Ben Bitdiddle has invented a test to determine whether the interpreter he is faced with is using applicative-order evaluation or normal-order evaluation. He defines the following two procedures
+"Ben Bitdiddle has invented a test to determine whether the interpreter he is faced with is using applicative-order evaluation or normal-order evaluation. He defines the following two procedures:"
 
 (define (p) (p))
 (define (test x y)
@@ -141,12 +141,49 @@ Ben Bitdiddle has invented a test to determine whether the interpreter he is fac
 		0
 		y ))
 
-Then he evaluates the expression
+"Then he evaluates the expression:"
 
 (test 0 (p))
 
-What behavior will Ben observe with an interpreter that uses applicative-order evaluation?
-What behavior will he observe with a interpreter that uses normal-order evaluation?
-(Assume that the evaluation rule for the special form ```if``` is the same whether the interpreter is using normal or applicative-order; the predicate expresssion is evaluated first, and the result determine whether to evaluate the consequent or the alternative expression)
+"What behavior will Ben observe with an interpreter that uses applicative-order evaluation?" 
+"What behavior will he observe with a interpreter that uses normal-order evaluation?" 
+"(Assume that the evaluation rule for the special form ```if``` is the same whether the interpreter is using normal or applicative-order; the predicate expresssion is evaluated first, and the result determine whether to evaluate the consequent or the alternative expression)""
+
+
+*Normal order* evalutates arguments when they are used in the body of the procedure
+*Applicative order* evaluates arguments before they are used in the body of the procedure
+
+Therefore: 
+
+Normal order evaluation (test 0 (p))//0
+Applicative order evalation (test 0 (p)) //infinite loop
+
+----------Exercise 1.6---------- 
+
+Typical if statements are special forms, ie they only evaluate the else-clause expression if the predicate expression is false. 
+If it's true, the evaluation ends and a value is printed. But the new-if statement is not a special form: ALL expressions are evaluated. 
+Evaluating the else-clause of new-if in the body of sqrt-iter re-triggers the evaluation sqrt-iter again. This means interpreter will never return a value for applications of sqrt-iter.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
